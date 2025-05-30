@@ -1,0 +1,43 @@
+[package]
+name = "neurocolor"
+version = "0.1.0"
+authors = ["Jorge Perez Burgos <vaijira@gmail.com>"]
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies.web-sys]
+version = "0.3"
+features = [ ]
+
+[dependencies]
+anyhow = "1.0"
+console_error_panic_hook = "0.1"
+dominator = "0.5"
+futures = "0.3"
+futures-signals = "0.3"
+getrandom = { version = "0.3", features = ["wasm_js"] }
+gloo-timers = { version = "0.3", features = ["futures"] }
+log = "0.4"
+rand = "0.9"
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+wasm-logger = "0.2"
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+# less code to include into binary
+panic = 'abort'
+# optimization over all codebase ( better optimization, slower build )
+codegen-units = 1
+# optimization for size ( more aggressive )
+opt-level = "z"  # 3 => fast, s/z => small
+# link time optimization using using whole-program analysis
+lto = true
+
+# [package.metadata.wasm-pack.profile.release]
+# Configured in rollup.config.js
+# wasm-opt = ["--enable-bulk-memory", "-Oz"]  # O4 => fast, Oz/Os => small
