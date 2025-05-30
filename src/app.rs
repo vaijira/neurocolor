@@ -5,6 +5,7 @@ use futures::StreamExt;
 use futures_signals::signal::Mutable;
 use gloo_timers::future::IntervalStream;
 use rand::Rng;
+use web_sys::HtmlAudioElement;
 
 use crate::config::Config;
 
@@ -14,6 +15,9 @@ static COLORS: [&'static str; 10] = [
 
 pub struct App {
     config: Config,
+    background_audio: HtmlAudioElement,
+    word_audio: HtmlAudioElement,
+    letters_audio: HtmlAudioElement,
     background_color: Mutable<&'static str>,
     text_color: Mutable<&'static str>,
     text: Mutable<&'static str>,
@@ -21,8 +25,18 @@ pub struct App {
 
 impl App {
     pub fn new() -> Arc<Self> {
+        let background_audio = HtmlAudioElement::new_with_src("audio/fondo.ogg").unwrap();
+        // background_audio.set_autoplay(true);
+        let word_audio = HtmlAudioElement::new_with_src("audio/palabra.ogg").unwrap();
+        // word_audio.set_autoplay(true);
+        let letters_audio = HtmlAudioElement::new_with_src("audio/letras.ogg").unwrap();
+        // letters_audio.set_autoplay(true);
+
         Arc::new(Self {
             config: Config::new(),
+            background_audio,
+            word_audio,
+            letters_audio,
             background_color: Mutable::new(COLORS[1]),
             text_color: Mutable::new(COLORS[0]),
             text: Mutable::new(COLORS[2]),
@@ -42,6 +56,19 @@ impl App {
         self.background_color.replace(COLORS[numbers[0]]);
         self.text_color.replace(COLORS[numbers[1]]);
         self.text.replace(COLORS[numbers[2]]);
+
+        match rng.random_range(0..3) {
+            0 => {
+                let _ = self.background_audio.play();
+            }
+            1 => {
+                let _ = self.word_audio.play();
+            }
+            2 => {
+                let _ = self.letters_audio.play();
+            }
+            _ => log::warn!("Unexpected value for playing audio. It should never happen."),
+        }
     }
 
     fn render_text(this: Arc<Self>) -> Dom {
