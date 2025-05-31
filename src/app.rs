@@ -13,6 +13,10 @@ static COLORS: [&'static str; 10] = [
     "black", "white", "red", "blue", "green", "orange", "pink", "yellow", "purple", "gray",
 ];
 
+static ES_COLORS: [&'static str; 10] = [
+    "NEGRO", "BLANCO", "ROJO", "AZUL", "VERDE", "NARANJA", "ROSA", "AMARILLO", "VIOLETA", "GRIS",
+];
+
 pub struct App {
     config: Config,
     background_audio: HtmlAudioElement,
@@ -39,7 +43,7 @@ impl App {
             letters_audio,
             background_color: Mutable::new(COLORS[1]),
             text_color: Mutable::new(COLORS[0]),
-            text: Mutable::new(COLORS[2]),
+            text: Mutable::new(ES_COLORS[2]),
         })
     }
 
@@ -55,7 +59,7 @@ impl App {
 
         self.background_color.replace(COLORS[numbers[0]]);
         self.text_color.replace(COLORS[numbers[1]]);
-        self.text.replace(COLORS[numbers[2]]);
+        self.text.replace(ES_COLORS[numbers[2]]);
 
         match rng.random_range(0..3) {
             0 => {
@@ -78,7 +82,7 @@ impl App {
               .style("top", "50%")
               .style("left", "50%")
               .style("transform", "translate(-50%, -50%)")
-              .style("font-size", "30vw")
+              .style("font-size", "15vw")
             }
         });
 
