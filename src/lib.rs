@@ -12,6 +12,7 @@ use wasm_bindgen::prelude::*;
 
 mod app;
 mod config;
+mod slides;
 
 #[wasm_bindgen(start)]
 /// Main entry point for burocratin app

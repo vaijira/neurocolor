@@ -9,7 +9,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies.web-sys]
 version = "0.3"
-features = [ "HtmlAudioElement" ]
+features = [ "HtmlAudioElement", "HtmlInputElement" ]
 
 [dependencies]
 anyhow = "1.0"
